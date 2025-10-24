@@ -76,8 +76,6 @@ func (l *Logger) WithObj(__obj any) *LoggerWithFields {
 		fmt.Printf("WithObj: failed to unmarshal into map: %v\n", __err)
 		return __result
 	}
-	fmt.Printf("WithObj: map: %v\n", __map)
-	fmt.Printf("WithObj: obj: %v\n", __obj)
 
 	__result.fields = __map
 	return __result

@@ -20,7 +20,6 @@ var obj = map[string]interface{}{
 	},
 }
 
-
 type __User struct {
 	ID    int
 	Name  string
@@ -32,14 +31,15 @@ func TestTheme(__func func() *log.Colors, theme string) {
 		Writer:    os.Stdout,
 		Formatter: log.GetSimpelFormatterText("/home/mohammedaouamri/DEV/go-log/", __func()),
 	}
-	fmt.Println("====================================")
-	Logger.Info(theme)
-	Logger.Warn(theme)
-	Logger.Error(theme)
-	Logger.WithMap(obj).Info("Hello World")
 	__user := __User{ID: 1, Name: "Mohamed", Email: "m@example.com"}
 
-	Logger.WithObj(__user).Info("User created")
+	fmt.Println("====================================")
+	log.INIT(&Logger)
+	log.Info(theme)
+	log.Warn(theme)
+	log.Error(theme)
+	log.WithMap(obj).Info("Hello World")
+	log.WithObj(__user).Info("User created")
 }
 
 func main() {
