@@ -111,7 +111,7 @@ func GetSimpelFormatterText(basePath string, __color *Colors) func(Level string,
 		func(level string, fields map[string]any, msg string, args ...any) string {
 			// Caller info
 			pc := make([]uintptr, 1)
-			runtime.Callers(3, pc)
+			runtime.Callers(4, pc)
 			frame, _ := runtime.CallersFrames(pc).Next()
 
 			// Relative file path
