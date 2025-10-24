@@ -116,7 +116,7 @@ func GetSimpelFormatterText(basePath string, __color *Colors) func(Level string,
 
 			// Relative file path
 			file := frame.File
-			if basePath != "" {
+			if basePath != ""   {
 				if rel, err := filepath.Rel(basePath, file); err == nil {
 					file = rel
 				}
