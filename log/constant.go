@@ -20,8 +20,8 @@ func INIT(p_log *Logger) {
 // Returns true if initialized, false otherwise.
 func testLogger() bool {
 	if __log == nil {
-		fmt.Fprintln(os.Stderr, "The Logger is not initialized yet")
-		fmt.Fprintln(os.Stderr, "Please call the `INIT(p_log *Logger)` function first")
+		fmt.Println("The Logger is not initialized yet")
+		fmt.Println("Please call the `INIT(p_log *Logger)` function first")
 		return false
 	}
 	return true
