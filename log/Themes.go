@@ -2,6 +2,31 @@ package log
 
 import "github.com/charmbracelet/lipgloss"
 
+func DefaultTheme() *Colors {
+
+	return &Colors{
+
+		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#00C7FF")).Bold(true),
+		Warn:  lipgloss.NewStyle().Foreground(lipgloss.Color("#FFD700")).Bold(true).Italic(true),
+		Error: lipgloss.NewStyle().Foreground(lipgloss.Color("#FF0000")).Bold(true),
+		Fatal: lipgloss.NewStyle().Foreground(lipgloss.Color("#FF0000")).Background(lipgloss.Color("#2E0000")).Bold(true).Underline(true),
+
+		Time: lipgloss.NewStyle().Foreground(lipgloss.Color("#999999")).Italic(true),
+		File: lipgloss.NewStyle().Foreground(lipgloss.Color("#87CEEB")).Bold(true), // skyblue
+		Line: lipgloss.NewStyle().Foreground(lipgloss.Color("#FF69B4")).Bold(true), // pink
+
+		KeyStyle:  lipgloss.NewStyle().Foreground(lipgloss.Color("#FFEA00")).Bold(true),
+		TypeStyle: lipgloss.NewStyle().Foreground(lipgloss.Color("#75715E")).Italic(true),
+		StrStyle:  lipgloss.NewStyle().Foreground(lipgloss.Color("#E6DB74")),
+		NumStyle:  lipgloss.NewStyle().Foreground(lipgloss.Color("#AE81FF")),
+		BoolStyle: lipgloss.NewStyle().Foreground(lipgloss.Color("#FD971F")).Bold(true),
+		NullStyle: lipgloss.NewStyle().Foreground(lipgloss.Color("#75715E")).Italic(true),
+		PtrStyle:  lipgloss.NewStyle().Foreground(lipgloss.Color("#66D9EF")).Italic(true),
+		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#888888")),
+	}
+
+}
+
 func MonokaiTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#66D9EF")).Bold(true),
@@ -210,4 +235,3 @@ func LightTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#AAAAAA")),
 	}
 }
-

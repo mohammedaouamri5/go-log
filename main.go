@@ -20,6 +20,13 @@ var obj = map[string]interface{}{
 	},
 }
 
+
+type __User struct {
+	ID    int
+	Name  string
+	Email string
+}
+
 func TestTheme(__func func() *log.Colors, theme string) {
 	Logger := log.Logger{
 		Writer:    os.Stdout,
@@ -30,17 +37,20 @@ func TestTheme(__func func() *log.Colors, theme string) {
 	Logger.Warn(theme)
 	Logger.Error(theme)
 	Logger.WithMap(obj).Info("Hello World")
+	__user := __User{ID: 1, Name: "Mohamed", Email: "m@example.com"}
+
+	Logger.WithObj(__user).Info("User created")
 }
 
 func main() {
-	TestTheme(log.MonokaiTheme, "Monokai Theme")
-	TestTheme(log.DraculaTheme, "Dracula Theme")
-	TestTheme(log.GruvboxTheme, "Gruvbox Theme")
-	TestTheme(log.SolarizedDarkTheme, "Solarized Dark Theme")
-	TestTheme(log.NordTheme, "Nord Theme")
-	TestTheme(log.OneDarkTheme, "One Dark Theme")
-	TestTheme(log.TokyoNightTheme, "Tokyo Night Theme")
-	TestTheme(log.AyuDarkTheme, "Ayu Dark Theme")
-	TestTheme(log.LightTheme, "Light Theme")
+	TestTheme(func() *log.Colors { return nil }, "Default Theme")
+	// TestTheme(log.MonokaiTheme, "Monokai Theme")
+	// TestTheme(log.DraculaTheme, "Dracula Theme")
+	// TestTheme(log.GruvboxTheme, "Gruvbox Theme")
+	// TestTheme(log.SolarizedDarkTheme, "Solarized Dark Theme")
+	// TestTheme(log.NordTheme, "Nord Theme")
+	// TestTheme(log.OneDarkTheme, "One Dark Theme")
+	// TestTheme(log.TokyoNightTheme, "Tokyo Night Theme")
+	// TestTheme(log.AyuDarkTheme, "Ayu Dark Theme")
+	// TestTheme(log.LightTheme, "Light Theme")
 }
-
