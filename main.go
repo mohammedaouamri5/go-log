@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"github.com/mohammedaouamri5/go-log/log"
 	"os"
+
+	"github.com/mohammedaouamri5/go-log/log"
 )
 
 var obj = map[string]interface{}{
@@ -27,30 +29,19 @@ type __User struct {
 }
 
 func TestTheme(__func func() *log.Colors, theme string) {
-	Logger := log.Logger{
-		Writer:    os.Stdout,
-		Formatter: log.GetSimpelFormatterText("/home/mohammedaouamri/DEV/go-log/", __func()),
-	}
-	__user := __User{ID: 1, Name: "Mohamed", Email: "m@example.com"}
 
 	fmt.Println("====================================")
-	log.INIT(&Logger)
-	log.Info(theme)
-	log.Warn(theme)
-	log.Error(theme)
-	log.WithMap(obj).Info("Hello World")
-	log.WithObj(__user).Info("User created")
+	log.INIT(
+		os.Stdout,
+		log.GetSimpelFormatterText(__func()),
+	)
 }
 
 func main() {
 	TestTheme(func() *log.Colors { return nil }, "Default Theme")
-	// TestTheme(log.MonokaiTheme, "Monokai Theme")
-	// TestTheme(log.DraculaTheme, "Dracula Theme")
-	// TestTheme(log.GruvboxTheme, "Gruvbox Theme")
-	// TestTheme(log.SolarizedDarkTheme, "Solarized Dark Theme")
-	// TestTheme(log.NordTheme, "Nord Theme")
-	// TestTheme(log.OneDarkTheme, "One Dark Theme")
-	// TestTheme(log.TokyoNightTheme, "Tokyo Night Theme")
-	// TestTheme(log.AyuDarkTheme, "Ayu Dark Theme")
-	// TestTheme(log.LightTheme, "Light Theme")
+
+	__err := errors.New("some error")
+	log.Error(__err.Error())
+	log.WithErr(__err).Error("Hello World")
+
 }

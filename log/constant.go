@@ -2,17 +2,19 @@ package log
 
 import (
 	"fmt"
+	"io"
 )
 
 var __log *Logger = nil
 
 // INIT initializes the global logger
-func INIT(p_log *Logger) {
-	if p_log == nil {
-		fmt.Println("INIT: cannot initialize with a nil logger")
-		return
-	}
-	__log = p_log
+func INIT(
+
+	p_writer io.Writer,
+	p_formatter Formatter,
+
+) {
+	__log = NewLogger(p_writer, p_formatter, 4)
 }
 
 // testLogger checks if the global logger is initialized.
@@ -62,6 +64,12 @@ func WithMap(obj map[string]any) *LoggerWithFields {
 		return nil
 	}
 	return __log.WithMap(obj)
+}
+func WithErr(__err error) *LoggerWithFields {
+	if testLogger() {
+		return nil
+	}
+	return __log.WithErr(__err)
 }
 
 // func InfoD(__str string, args ...any) { if testLogger() { return } ; __log.InfoDebug(__str, args...) }

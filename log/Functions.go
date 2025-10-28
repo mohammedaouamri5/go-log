@@ -3,6 +3,7 @@ package log
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"path/filepath"
 	"reflect"
 	"runtime"
@@ -52,6 +53,13 @@ func prettyPrint(colors *Colors, v interface{}, indent int) string {
 		return colors.NullStyle.Render("null")
 	}
 
+	// --- Handle error type first ---
+	if err, ok := v.(error); ok {
+		ptr := fmt.Sprintf("%p", err) // memory address like 0x97869
+		str := fmt.Sprintf("%q", err.Error())
+		return colors.Error.Render(fmt.Sprintf("%s | %s", ptr, str))
+	}
+
 	val := reflect.ValueOf(v)
 
 	switch val.Kind() {
@@ -62,9 +70,18 @@ func prettyPrint(colors *Colors, v interface{}, indent int) string {
 			k := key.Interface()
 			sb.WriteString(strings.Repeat(" ", indent+indentSize))
 			sb.WriteString(colors.KeyStyle.Render(fmt.Sprintf("%q", k)))
-			sb.WriteString(" " + colors.TypeStyle.Render(fmt.Sprintf("(%s)", reflect.TypeOf(val.MapIndex(key).Interface()).Kind())))
+
+			fieldVal := val.MapIndex(key).Interface()
+
+			// --- Detect if it's an error to color the type as (error) ---
+			if _, ok := fieldVal.(error); ok {
+				sb.WriteString(" " + colors.TypeStyle.Render("(error)"))
+			} else {
+				sb.WriteString(" " + colors.TypeStyle.Render(fmt.Sprintf("(%s)", reflect.TypeOf(fieldVal).Kind())))
+			}
+
 			sb.WriteString(": ")
-			sb.WriteString(prettyPrint(colors, val.MapIndex(key).Interface(), indent+indentSize))
+			sb.WriteString(prettyPrint(colors, fieldVal, indent+indentSize))
 			sb.WriteString("\n")
 		}
 		sb.WriteString(strings.Repeat(" ", indent) + colors.Bracket.Render("}"))
@@ -100,23 +117,42 @@ func prettyPrint(colors *Colors, v interface{}, indent int) string {
 	}
 }
 
-func GetSimpelFormatterText(basePath string, __color *Colors) func(Level string, fields map[string]any, __str string, args ...any) string {
+func GetSimpelFormatterText(__color *Colors) Formatter {
 
 	if __color == nil {
 		__color = newColors()
 
 	}
 
+	basePath, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error:", err.Error())
+		return nil
+	}
+
+	for {
+		if _, err := os.Stat(filepath.Join(basePath, "go.mod")); err == nil {
+			break
+		}
+
+		parent := filepath.Dir(basePath)
+		if parent == basePath {
+			fmt.Println("Error:", err.Error())
+			return nil
+		}
+		basePath = parent
+	}
+
 	__func :=
-		func(level string, fields map[string]any, msg string, args ...any) string {
+		func(level string, fields map[string]any, msg string, back int, args ...any) string {
 			// Caller info
 			pc := make([]uintptr, 1)
-			runtime.Callers(4, pc)
+			runtime.Callers(back, pc)
 			frame, _ := runtime.CallersFrames(pc).Next()
 
 			// Relative file path
 			file := frame.File
-			if basePath != ""   {
+			if basePath != "" {
 				if rel, err := filepath.Rel(basePath, file); err == nil {
 					file = rel
 				}
