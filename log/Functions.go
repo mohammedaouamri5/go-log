@@ -48,7 +48,7 @@ func newColors() *Colors {
 
 var indentSize = 2
 
-func prettyPrint(colors *Colors, v interface{}, indent int) string {
+func prettyPrint(colors *Colors, v any, indent int) string {
 	if v == nil {
 		return colors.NullStyle.Render("null")
 	}
@@ -118,10 +118,8 @@ func prettyPrint(colors *Colors, v interface{}, indent int) string {
 }
 
 func GetSimpelFormatterText(__color *Colors) Formatter {
-
 	if __color == nil {
 		__color = newColors()
-
 	}
 
 	basePath, err := os.Getwd()
@@ -192,7 +190,6 @@ func GetSimpelFormatterText(__color *Colors) Formatter {
 					prettyPrint(__color, fields, 0),
 				)
 			}
-
 		}
 
 	return __func

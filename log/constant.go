@@ -9,10 +9,8 @@ var __log *Logger = nil
 
 // INIT initializes the global logger
 func INIT(
-
 	p_writer io.Writer,
 	p_formatter Formatter,
-
 ) {
 	__log = NewLogger(p_writer, p_formatter, 4)
 }
@@ -72,7 +70,3 @@ func WithErr(__err error) *LoggerWithFields {
 	return __log.WithErr(__err)
 }
 
-// func InfoD(__str string, args ...any) { if testLogger() { return } ; __log.InfoDebug(__str, args...) }
-// func WarnD(__str string, args ...any) { if testLogger() { return } ; __log.WarnD(__str, args...) }
-// func ErrorD(__str string, args ...any) { if testLogger() { return } ; __log.ErrorD(__str, args...) }
-// func FaralD(__str string, args ...any) { if testLogger() { return } ; __log.FatalD(__str, args...) }

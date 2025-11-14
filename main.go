@@ -30,18 +30,37 @@ type __User struct {
 
 func TestTheme(__func func() *log.Colors, theme string) {
 
+	__user := &__User{
+		ID:    1,
+		Name:  "mohammed",
+		Email: "mohammed.aouamri@pm.me",
+	}
 	fmt.Println("====================================")
 	log.INIT(
 		os.Stdout,
 		log.GetSimpelFormatterText(__func()),
 	)
+
+	log.Info(theme)
+	log.Warn(theme)
+	log.Error(theme)
+	log.Fatal(theme)
+
+	log.WithMap(obj).Info(theme)
+	log.WithMap(obj).Warn(theme)
+	log.WithMap(obj).Error(theme)
+	log.WithMap(obj).Fatal(theme)
+
+	log.WithObj(__user).Info(theme)
+	log.WithObj(__user).Warn(theme)
+	log.WithObj(__user).Error(theme)
+	log.WithObj(__user).Fatal(theme)
+
 }
 
 func main() {
 	TestTheme(func() *log.Colors { return nil }, "Default Theme")
 
 	__err := errors.New("some error")
-	log.Error(__err.Error())
 	log.WithErr(__err).Error("Hello World")
-
 }

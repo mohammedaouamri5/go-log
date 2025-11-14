@@ -35,7 +35,7 @@ type Formatter = func(Level string, fields map[string]any, __str string, back in
 type Logger struct {
 	Writer    io.Writer
 	Formatter Formatter
-	back      int
+	back      int   // this too how much function you have to return befor you pick the caller function
 
 	mu   sync.Mutex // protect Writer.Write
 	pool *sync.Pool // reuse buffers

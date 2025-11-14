@@ -3,7 +3,6 @@ package log
 import "github.com/charmbracelet/lipgloss"
 
 func DefaultTheme() *Colors {
-
 	return &Colors{
 
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#00C7FF")).Bold(true),
@@ -24,7 +23,6 @@ func DefaultTheme() *Colors {
 		PtrStyle:  lipgloss.NewStyle().Foreground(lipgloss.Color("#66D9EF")).Italic(true),
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#888888")),
 	}
-
 }
 
 func MonokaiTheme() *Colors {
@@ -49,7 +47,6 @@ func MonokaiTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#888888")),
 	}
 }
-
 func DraculaTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#8BE9FD")).Bold(true),
@@ -72,7 +69,6 @@ func DraculaTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#44475A")),
 	}
 }
-
 func GruvboxTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#83A598")).Bold(true),
@@ -95,9 +91,6 @@ func GruvboxTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#7C6F64")),
 	}
 }
-
-// === More Themes ===
-
 func SolarizedDarkTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#268BD2")).Bold(true),
@@ -120,7 +113,6 @@ func SolarizedDarkTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#073642")),
 	}
 }
-
 func NordTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#88C0D0")).Bold(true),
@@ -143,7 +135,6 @@ func NordTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#434C5E")),
 	}
 }
-
 func OneDarkTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#61AFEF")).Bold(true),
@@ -166,7 +157,6 @@ func OneDarkTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#3E4451")),
 	}
 }
-
 func TokyoNightTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#7AA2F7")).Bold(true),
@@ -189,7 +179,6 @@ func TokyoNightTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#3B4261")),
 	}
 }
-
 func AyuDarkTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#39BAE6")).Bold(true),
@@ -212,7 +201,6 @@ func AyuDarkTheme() *Colors {
 		Bracket:   lipgloss.NewStyle().Foreground(lipgloss.Color("#3E4B59")),
 	}
 }
-
 func LightTheme() *Colors {
 	return &Colors{
 		Info:  lipgloss.NewStyle().Foreground(lipgloss.Color("#005F87")).Bold(true),
