@@ -35,7 +35,7 @@ type Formatter = func(Level string, fields map[string]any, __str string, back in
 type Logger struct {
 	Writer    io.Writer
 	Formatter Formatter
-	back      int   // this too how much function you have to return befor you pick the caller function
+	back      int // this too how much function you have to return befor you pick the caller function
 
 	mu   sync.Mutex // protect Writer.Write
 	pool *sync.Pool // reuse buffers
@@ -101,12 +101,23 @@ func (l *Logger) WithErr(err error) *LoggerWithFields {
 		Logger: l,
 		fields: make(map[string]any),
 	}
-	if err == nil {
-		result.fields["error"] = nil
-	} else {
-		result.fields["error"] = err
-	}
+	result.fields["error"] = err
 	return result
+}
+
+func (l *Logger) WithField(key string, value any) *LoggerWithFields {
+
+	result := &LoggerWithFields{
+		Logger: l,
+		fields: make(map[string]any),
+	}
+	result.fields[key] = value
+	return result
+}
+
+func (l *LoggerWithFields) WithField(key string, value any) *LoggerWithFields {
+	l.fields[key] = value
+	return l
 }
 
 // --- the key function you asked to modify ---

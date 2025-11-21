@@ -26,6 +26,15 @@ type __User struct {
 	ID    int
 	Name  string
 	Email string
+	pwd string
+}
+func (__user *__User) ToMap() map[string]any {
+	return map[string]any{
+		"ID":    __user.ID,
+		"Name":  __user.Name,
+		"Email": __user.Email,
+		"pwd": __user.pwd,
+	}
 }
 
 func TestTheme(__func func() *log.Colors, theme string) {
@@ -34,12 +43,16 @@ func TestTheme(__func func() *log.Colors, theme string) {
 		ID:    1,
 		Name:  "mohammed",
 		Email: "mohammed.aouamri@pm.me",
+		pwd: "1234",
 	}
 	fmt.Println("====================================")
 	log.INIT(
 		os.Stdout,
-		log.GetSimpelFormatterText(__func()),
+		log.NewStructuredLoggerFormatter(__func()),
 	)
+
+
+	__err := errors.New("some error")
 
 	log.Info(theme)
 	log.Warn(theme)
@@ -55,7 +68,16 @@ func TestTheme(__func func() *log.Colors, theme string) {
 	log.WithObj(__user).Warn(theme)
 	log.WithObj(__user).Error(theme)
 	log.WithObj(__user).Fatal(theme)
+	
 
+	log.WithErr(__err).Info(theme)
+	log.WithErr(__err).Warn(theme)
+	log.WithErr(__err).Error(theme)
+	log.WithErr(__err).Fatal(theme)
+	
+
+	log.WithField("Bo3kzjfv" , 938).WithField("User", __user).Info(theme)
+	log.WithField("Bo3kzjfv" , 938).WithField("User", *__user).Info(theme)
 }
 
 func main() {

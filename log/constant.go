@@ -70,3 +70,9 @@ func WithErr(__err error) *LoggerWithFields {
 	return __log.WithErr(__err)
 }
 
+func WithField(key string, value any) *LoggerWithFields {
+	if testLogger() {
+		return nil
+	}
+	return __log.WithField(key, value)
+}

@@ -13,6 +13,8 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+type loggable interface{ ToMap() map[string]any }
+
 func newColors() *Colors {
 	return &Colors{
 		Info: lipgloss.NewStyle().
@@ -61,7 +63,27 @@ func prettyPrint(colors *Colors, v any, indent int) string {
 	}
 
 	val := reflect.ValueOf(v)
-
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+	if val.Kind() == reflect.Struct {
+		// Try to call ToMap method via interface assertion
+		if toMapable, ok := v.(loggable); ok {
+			v = toMapable.ToMap()
+		} else if reflect.ValueOf(v).Kind() == reflect.Ptr {
+			// If v is a pointer, try dereferencing for ToMap
+			dereferenced := reflect.ValueOf(v).Elem().Interface()
+			if toMapable, ok := dereferenced.(loggable); ok {
+				v = toMapable.ToMap()
+			} else {
+				v = structToMap(v)
+			}
+		} else {
+			v = structToMap(v)
+		}
+		// Update reflection value after conversion
+		val = reflect.ValueOf(v)
+	}
 	switch val.Kind() {
 	case reflect.Map:
 		var sb strings.Builder
@@ -117,7 +139,26 @@ func prettyPrint(colors *Colors, v any, indent int) string {
 	}
 }
 
-func GetSimpelFormatterText(__color *Colors) Formatter {
+// Helper function to convert struct to map
+func structToMap(v any) map[string]any {
+	result := make(map[string]any)
+	val := reflect.ValueOf(v)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+	typ := val.Type()
+
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Field(i)
+		fieldType := typ.Field(i)
+		if field.CanInterface() {
+			result[fieldType.Name] = field.Interface()
+		}
+	}
+	return result
+}
+
+func NewStructuredLoggerFormatter(__color *Colors) Formatter {
 	if __color == nil {
 		__color = newColors()
 	}
@@ -194,3 +235,6 @@ func GetSimpelFormatterText(__color *Colors) Formatter {
 
 	return __func
 }
+
+
+
