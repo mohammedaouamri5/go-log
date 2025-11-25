@@ -64,6 +64,9 @@ func prettyPrint(colors *Colors, v any, indent int) string {
 
 	val := reflect.ValueOf(v)
 	if val.Kind() == reflect.Ptr {
+		if val.IsNil() { // 👈 this is the missing guard
+			return colors.NullStyle.Render("null")
+		}
 		val = val.Elem()
 	}
 	if val.Kind() == reflect.Struct {
@@ -235,6 +238,3 @@ func NewStructuredLoggerFormatter(__color *Colors) Formatter {
 
 	return __func
 }
-
-
-
