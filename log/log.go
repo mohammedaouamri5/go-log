@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 	"sync"
 
 	"github.com/charmbracelet/lipgloss"
@@ -156,6 +157,7 @@ func (l *Logger) Error(__str string, args ...any) {
 func (l *Logger) Fatal(__str string, args ...any) {
 	__format := l.Formatter("FATAL", nil, __str, l.back, args...)
 	l.write([]byte(__format))
+	os.Exit(67)
 }
 
 // --- WithFields versions ---
